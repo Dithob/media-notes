@@ -8,6 +8,9 @@ accounts-tokens.json
 # Agent 工作区状态（memory 中含跨项目绝对路径，不提交）
 .workbuddy/
 
+# 媒体提取副产物（完整 ASR 转写等，仅留本地/私有备份，不进公开仓库）
+byproducts/
+
 # 节点依赖
 node_modules/
 
