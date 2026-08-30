@@ -1,0 +1,17 @@
+# 凭证与账号文件（含 Token，禁止提交）
+.env
+.env.*
+accounts.json
+accounts-tokens.json
+*.token
+
+# Agent 工作区状态（memory 中含跨项目绝对路径，不提交）
+.workbuddy/
+
+# 节点依赖
+node_modules/
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
