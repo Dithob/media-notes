@@ -539,8 +539,4 @@ npm install @mariozechner/pi-coding-agent # 开箱即用的 coding agent
 
 ## 副产物导航
 
-- 来源目录：[`byproducts/BV139bD6gEa8/`](../byproducts/BV139bD6gEa8/README.md)
-- 时间轴转录：[`transcript.md`](../byproducts/BV139bD6gEa8/transcript.md)（1245 条 cue，125 段，覆盖 00:00–44:38）
-- 原始字幕：[`raw-subtitle.json`](../byproducts/BV139bD6gEa8/raw-subtitle.json)
-- 元数据：[`metadata.json`](../byproducts/BV139bD6gEa8/metadata.json)
-- 获取状态：[`status.json`](../byproducts/BV139bD6gEa8/status.json)
+副产物（原始字幕、时间轴转录、元数据）仅存本地，不进公开仓库。原视频：[Pi 大道至简，超越Codex和Claude Code的极简Agent，保姆级全攻略， 一期视频精通](https://www.bilibili.com/video/BV139bD6gEa8)

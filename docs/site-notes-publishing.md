@@ -1,10 +1,10 @@
 # 笔记发布到 dithob.github.io 的改造方案
 
 对象站点：`D:/TestProjects/dithob.github.io`（Astro 静态站，GitHub Pages / Actions 部署）
- 源：`D:/TestProjects/mediareport/media-note/`
+ 源：`D:/TestProjects/media-notes/media-note/`
  目标 URL：`https://dithob.github.io/notes/` 与 `https://dithob.github.io/notes/<slug>/`
 
-本文是**实施前的设计稿**，站点侧尚未改动。mediareport 侧的发布脚本已实现，见 `scripts/publish-notes.mjs`。
+本文是**实施前的设计稿**，站点侧尚未改动。media-notes 侧的发布脚本已实现，见 `scripts/publish-notes.mjs`。
 
 ---
 
@@ -13,10 +13,10 @@
 | 项 | 结论 |
 | --- | --- |
 | 发布内容 | 只发笔记正文。副产物（原始字幕、时间轴转录）不进公开仓库 |
-| 同步方向 | **单向**：mediareport → 站点。站点上的改动不回流 |
+| 同步方向 | **单向**：media-notes → 站点。站点上的改动不回流 |
 | 触发方式 | 手动跑脚本，再 commit / push 触发 Actions |
 | 站点仓库 | 唯一发布源，公开 |
-| mediareport | 可推 Private 仓库做备份，含 byproducts |
+| media-notes | 公开仓库；byproducts 仅存本地（gitignore），不进仓库 |
 
 选单向的理由：两边不是同一份文件。站点里的笔记是**转换产物**（加了 frontmatter、文件名 slug 化、副产物导航被剥离），反向同步要做逆变换，任何一边手工改动都会在下次同步时被覆盖或撞冲突。跨仓库双向只能靠 CI 互开 PR，冲突时得手工解，比跑一次脚本痛苦得多。
 
@@ -198,7 +198,7 @@ markdown: {
 ```bash
 cd D:/TestProjects/dithob.github.io
 npm ci                      # node_modules 还没装
-node ../mediareport/scripts/publish-notes.mjs --write
+node ../media-notes/scripts/publish-notes.mjs --write
 npm run check               # 类型检查，schema 对不上会在这里报
 npm run build               # 构建
 node scripts/verify-site.mjs # 记得先改里面的 notes 路径
@@ -225,4 +225,4 @@ CI 侧不用另配，`deploy.yml` 已经在 push main 时跑 `check` + `build` +
 - **接入 `@astrojs/sitemap`**：现在的 `public/sitemap.xml` 手写维护，笔记一多必然漏。接入后自动包含 collection 页面，可以删掉手写文件。
 - **每篇笔记的 OG 图**：现在所有页面共用 `public/images/og.svg`，分享出去没有区分度。
 - **按 category / type 归档**：现在只有 2 篇，等攒到 10 篇以上再说。
-- **CI 自动开 PR**：如果 mediareport 也上 GitHub，可以做一个 scheduled workflow 检出源仓库、跑脚本、向站点仓库开 PR。当前 2 篇笔记，手动跑脚本的性价比更高。
+- **CI 自动开 PR**：如果 media-notes 也上 GitHub，可以做一个 scheduled workflow 检出源仓库、跑脚本、向站点仓库开 PR。当前 2 篇笔记，手动跑脚本的性价比更高。

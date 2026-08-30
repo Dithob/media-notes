@@ -12,7 +12,7 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { basename, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { notes as overrides, siteNotesDir } from './publish.config.mjs';
 
 const here = fileURLToPath(new URL('.', import.meta.url));
@@ -22,7 +22,7 @@ const indexPath = join(noteDir, 'README.md');
 
 const write = process.argv.includes('--write');
 
-const TYPES = { 笔记: 'note', 指南: 'guide', 手册: 'manual' };
+const TYPES = { 笔记: 'note', 指南: 'guide', 手册: 'manual', 阅读: 'review' };
 
 const fail = (msg) => {
   console.error(`[publish-notes] ${msg}`);
@@ -38,9 +38,9 @@ function readIndex() {
     if (!line.trim().startsWith('|')) continue;
     const cells = line.split('|').map((c) => c.trim()).filter(Boolean);
     if (cells.length < 5 || cells[0] === '类型' || cells[0].startsWith('-')) continue;
-    const [, titleCell, source, date, byproductCell] = cells;
+    const [, titleCell, source, date, sourceLinkCell] = cells;
     const fileMatch = titleCell.match(/\[([^\]]+\.md)\]/);
-    const idMatch = byproductCell.match(/byproducts\/([^/)]+)\//);
+    const idMatch = sourceLinkCell.match(/(?:video\/|v=)([\w-]+)/);
     if (!fileMatch) continue;
     rows.set(fileMatch[1], {
       type: cells[0],
@@ -53,26 +53,72 @@ function readIndex() {
   return rows;
 }
 
-// ---------- 正文解析 ----------
+// ---------- 锚点 slugger ----------
+// Astro 7 经 @astrojs/markdown-satteri 用 github-slugger 给标题生成 id
+// （重复标题追加 -1/-2）。这里直接从站点 node_modules 加载同一份包，
+// 保证 checkAnchors 与真实页面完全一致；站点升级 Astro / github-slugger 后
+// 验收标准自动跟随。找不到时才退回内置近似算法并警告。
 
-// github-slugger 的近似实现：转小写、去标点（保留 CJK / 字母数字 / - _）、
-// 空格转连字符、重复标题追加 -1 -2。Astro 默认也用 github-slugger，
-// 但升级后算法可能变，构建完必须实测一次锚点。
-function slugger() {
-  const seen = new Map();
-  return (text) => {
+async function loadSlugger() {
+  const candidates = [
+    // 站点 node_modules（与构建时是同一个包，版本随站点升级）
+    join(siteNotesDir, '..', '..', '..', 'node_modules', 'github-slugger', 'index.js'),
+    // 本仓库自己的 node_modules（若以后把 github-slugger 加进依赖）
+    join(projectRoot, 'node_modules', 'github-slugger', 'index.js'),
+  ];
+  for (const p of candidates) {
+    if (!existsSync(p)) continue;
+    const mod = await import(pathToFileURL(p).href);
+    let version = '';
+    try {
+      const pkg = JSON.parse(readFileSync(join(p, '..', 'package.json'), 'utf8'));
+      version = pkg.version ? `@${pkg.version}` : '';
+    } catch {}
+    return { Slugger: mod.default, label: `github-slugger${version}` };
+  }
+  return { Slugger: null, label: null };
+}
+
+// 兜底近似实现（仅当站点 node_modules 缺失时使用，与 github-slugger 不完全一致）
+class ApproxSlugger {
+  constructor() {
+    this.seen = new Map();
+  }
+  slug(value) {
     const base =
-      text
+      value
         .trim()
         .toLowerCase()
         .replace(/<[^>]+>/g, '')
         .replace(/[`*_~]/g, '')
         .replace(/[^\p{L}\p{N}_\- ]/gu, '')
         .replace(/\s+/g, '-') || 'section';
-    const n = seen.get(base) ?? 0;
-    seen.set(base, n + 1);
+    const n = this.seen.get(base) ?? 0;
+    this.seen.set(base, n + 1);
     return n === 0 ? base : `${base}-${n}`;
-  };
+  }
+}
+
+const { Slugger, label: sluggerLabel } = await loadSlugger();
+if (!Slugger) {
+  console.warn(
+    '[publish-notes] 警告：站点 node_modules 里找不到 github-slugger，锚点校验退回内置近似算法，结果仅供参考。',
+  );
+}
+const sluggerClass = Slugger ?? ApproxSlugger;
+
+// ---------- 正文解析 ----------
+
+// 把标题行的 Markdown 还原成 Astro 渲染后的纯文本（HAST textContent）：
+// [label](url) -> label、![alt](url) -> alt、`code` -> code、<b>x</b> -> x。
+// 剩下的 * ~ 等标记符由 github-slugger 自身按黑名单剔除，无需处理。
+function headingText(raw) {
+  return raw
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/<[^>]+>/g, '')
+    .replace(/(?<!\w)_(.+?)_(?!\w)/g, '$1');
 }
 
 function parseSourceBlock(md) {
@@ -108,17 +154,17 @@ function transformBody(raw, sourceUrl) {
 }
 
 function checkAnchors(body) {
-  const slug = slugger();
+  const slugger = new sluggerClass();
   const ids = new Set();
   for (const line of body.split('\n')) {
     const m = line.match(/^(#{2,6})\s+(.+?)\s*$/);
-    if (m) ids.add(slug(m[2]));
+    if (m) ids.add(slugger.slug(headingText(m[2])));
   }
   const broken = [];
   for (const m of body.matchAll(/\]\(#([^)]+)\)/g)) {
     if (!ids.has(m[1])) broken.push(m[1]);
   }
-  return { anchorCount: ids.size, broken };
+  return { anchorCount: ids.size, ids, broken };
 }
 
 // ---------- frontmatter ----------
@@ -191,7 +237,9 @@ for (const file of files) {
 // ---------- 输出 ----------
 
 console.log(`来源目录：${noteDir}`);
-console.log(`目标目录：${siteNotesDir}${write ? '' : '  (预演模式，未写入)'}\n`);
+console.log(`目标目录：${siteNotesDir}${write ? '' : '  (预演模式，未写入)'}`);
+if (sluggerLabel) console.log(`锚点 slugger：${sluggerLabel}（与站点构建同一份，锚点校验与线上一致）`);
+console.log();
 
 for (const r of results) {
   console.log(`  ${basename(r.file)}  ->  ${r.slug}.md`);
@@ -214,3 +262,6 @@ if (write) {
 }
 
 if (problems.some((p) => p.includes('锚点失效'))) process.exit(1);
+
+// 供外部测试/校验导入使用：导出正文处理与锚点校验函数
+export { headingText, checkAnchors };

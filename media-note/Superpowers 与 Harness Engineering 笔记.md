@@ -155,9 +155,6 @@ Superpowers 是很好的 harness engineering 实践，但 Anthropic 官方博客
 
 ## 副产物导航
 
-- 字幕与转录底稿：[`byproducts/BV1V49MBLE6y/README.md`](../byproducts/BV1V49MBLE6y/README.md)
-- 时间轴转录：[`transcript.md`](../byproducts/BV1V49MBLE6y/transcript.md)（309 条 cue，合并为 31 段，末条 13:31 / 时长 13:34）
-- 元数据：[`metadata.json`](../byproducts/BV1V49MBLE6y/metadata.json)
-- 原始字幕响应：[`raw-subtitle.json`](../byproducts/BV1V49MBLE6y/raw-subtitle.json)
+副产物（原始字幕、时间轴转录、元数据）仅存本地，不进公开仓库。原视频：[让 harness 减少 AI 写的屎山 | 名片网页制作教程 EP7：superpowers 是什么？为什么要用](https://www.bilibili.com/video/BV1V49MBLE6y)
 
 **证据标注说明**：标注「字幕已验证」的内容直接来自字幕；标注「背景补充」的来自模型通识，用于解释术语；标注「无法确认」的为 ASR 噪声或视频未点名出处的内容。

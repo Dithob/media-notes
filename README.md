@@ -1,13 +1,35 @@
-# mediareport
+# media-notes
 
-音视频内容提取与整理工作区。用 `media-content-distiller` 抓字幕，再由 Agent 整理成笔记/指南/手册。
+> 音视频 → 结构化笔记的一站式工作区 · A workspace that turns audio & video into structured notes.
+
+## 项目简介 · About
+
+**中文**
+
+`media-notes` 是一个音视频内容提取与整理工作区。它用 `media-content-distiller` 技能抓取 B 站 / YouTube 等平台的字幕（BibiGPT），再由 Codex 等 AI Agent 基于字幕整理成**给人读的结构化笔记**（`笔记` / `指南` / `手册`），并可一键发布到个人站点。
+
+**English**
+
+`media-notes` is a workspace for extracting and distilling audio/video content. It pulls subtitles from platforms like Bilibili and YouTube via the `media-content-distiller` skill (powered by BibiGPT), then an AI agent (e.g. Codex) turns the transcripts into **structured, human-readable notes** (`note` / `guide` / `manual`) — publishable to a personal site with one command.
+
+## 特性 · Features
+
+| 特性 | 说明 |
+| --- | --- |
+| 🎬 多平台字幕获取 | 抓取 B 站 / YouTube 等平台字幕，原始 cue 逐条落盘留证 · Multi-platform subtitle acquisition with raw cues archived as evidence |
+| 🤖 Agent 整理成稿 | 字幕 → 结构化笔记：按约定命名、索引、互链 · Agent-driven distillation with agreed naming, indexing and cross-links |
+| 📂 主产物 / 副产物分离 | 给人读的笔记在 `media-note/`，字幕、元数据、转录在 `byproducts/` · Final notes in `media-note/`, raw byproducts in `byproducts/` |
+| 📤 单向发布 | `scripts/publish-notes.mjs` 一键发布到个人站点，副产物一律不公开 · One-command publishing to a personal Astro site — byproducts never leave the private repo |
+| 🔒 私有仓库设计 | 完整 ASR 转写只留存于私有仓库 · Designed to stay private: full ASR transcripts live only in the private repo |
+
+发布目标站点：<https://dithob.github.io/notes/>（Astro，GitHub Pages / Actions 自动构建）。
 
 ## 目录约定
 
 工作区只分两层：**给人读的成品笔记**放 `media-note/`，**提取过程的副产物**放 `byproducts/`。
 
 ```text
-mediareport/
+media-notes/
 ├── README.md                 # 本文件：目录约定与工作流
 ├── media-note/               # 主产物（人读的最终笔记）
 │   ├── README.md             # 笔记索引
@@ -104,8 +126,8 @@ python <skill>/scripts/token_registry.py list --registry <accounts.json>
 
 ## 安全
 
+**本仓库是公开仓库。** `byproducts/`（原始字幕、时间轴转录等副产物）已 gitignore 并停止跟踪，只存本地；若历史提交里已含副产物，必须用 `git filter-repo --path byproducts/ --invert-paths` 重写历史并 force push，确保任何提交都不含完整 ASR 转写（公开即接近分发原视频字幕全文）。副产物如需备份，请放私有仓库或其他私有存储，不要推到本仓库。
+
 `.env`、`accounts.json`、`accounts-tokens.json`、`*.token` 已在 `.gitignore` 中，不要把 Token 写进笔记、日志或提交记录。
 
 `.workbuddy/` 也在 `.gitignore` 中——Agent 的 memory 里会记跨项目的绝对路径，不适合进仓库。
-
-**本仓库必须保持 Private。** `byproducts/` 下存着 B 站视频的完整 ASR 转写（`raw-subtitle.json` 是逐条原始 cue，`transcript.md` 是近乎全文的时间轴转录）。这些内容放在私有仓库里做备份和回查没问题，一旦公开就接近分发原视频字幕全文。如果哪天要转公开，必须先删掉 `byproducts/` 并重写 git 历史，只留 `media-note/`。

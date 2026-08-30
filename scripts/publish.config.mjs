@@ -8,7 +8,7 @@
 
 import { fileURLToPath } from 'node:url';
 
-// mediareport 与 dithob.github.io 同为 D:/TestProjects 下的兄弟目录。
+// media-notes 与 dithob.github.io 同为 D:/TestProjects 下的兄弟目录。
 // 目录关系变了就用 SITE_NOTES_DIR 覆盖。
 const defaultSiteNotesDir = fileURLToPath(
   new URL('../../dithob.github.io/src/content/notes/', import.meta.url),
