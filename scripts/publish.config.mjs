@@ -38,4 +38,67 @@ export const notes = {
     summaryEn:
       'An agent workflow plugin that locks acceptance criteria with spec + plan, clears context via subagents, and constrains coding with a TDD red-green loop — at the cost of multiplied time and token usage.',
   },
+
+  'Agent Skills 从入门到实战手册.md': {
+    slug: 'agent-skills-practical-manual',
+    titleEn: 'A practical manual for Agent Skills',
+    category: 'AI / Agent',
+    categoryEn: 'AI / Agent',
+    summary: '从概念、目录结构和环境搭建，到编写、调试、复用 Skill 的完整入门手册。',
+    summaryEn: 'A practical beginner manual covering Agent Skill concepts, structure, setup, authoring, debugging, and reuse.',
+  },
+
+  'Git 与 GitHub 核心概念笔记.md': {
+    slug: 'git-github-core-concepts',
+    titleEn: 'Git and GitHub core concepts',
+    category: 'Engineering',
+    categoryEn: 'Engineering',
+    summary: '梳理 Git 版本控制、GitHub 协作、分支、提交、合并与常用实战流程。',
+    summaryEn: 'A structured guide to Git version control, GitHub collaboration, branches, commits, merges, and practical workflows.',
+  },
+
+  'Pi Agent 使用手册.md': {
+    slug: 'pi-agent-usage-manual',
+    titleEn: 'Pi Agent usage manual',
+    category: 'AI / Agent',
+    categoryEn: 'AI / Agent',
+    summary: '介绍 Pi Agent 的极简设计、安装、插件、技能、Session 管理、扩展与安全边界。',
+    summaryEn: 'A practical overview of Pi Agent: its minimal design, setup, plugins, skills, sessions, extensions, and security boundaries.',
+  },
+
+  'Pi Agent 工程实现指南.md': {
+    slug: 'pi-agent-engineering-guide',
+    titleEn: 'Pi Agent engineering guide',
+    category: 'AI / Agent',
+    categoryEn: 'AI / Agent',
+    summary: '从 npm monorepo、模型抽象层到 agent loop 和会话存储，拆解 Pi 的工程实现。',
+    summaryEn: 'An engineering walkthrough of Pi, from its npm monorepo and model abstraction to the agent loop and session storage.',
+  },
+
+  'RAG 入门课程笔记.md': {
+    slug: 'rag-beginner-course-notes',
+    titleEn: 'RAG beginner course notes',
+    category: 'AI / RAG',
+    categoryEn: 'AI / RAG',
+    summary: '从索引、检索、生成到评估和模块化 RAG，整理面向初学者的完整知识主线。',
+    summaryEn: 'Beginner-friendly notes covering the full RAG path from indexing, retrieval, and generation to evaluation and modular RAG.',
+  },
+
+  '测试开发学习路线笔记.md': {
+    slug: 'software-testing-development-roadmap',
+    titleEn: 'Software testing and development roadmap',
+    category: 'Testing',
+    categoryEn: 'Testing',
+    summary: '按阶段梳理从编程基础、测试基础到自动化、平台工程和求职准备的测开学习路线。',
+    summaryEn: 'A staged roadmap from programming and testing fundamentals to automation, platform engineering, and career preparation.',
+  },
+
+  'Playwright 深入掌握笔记.md': {
+    slug: 'playwright-in-depth',
+    titleEn: 'Playwright in depth',
+    category: 'Testing',
+    categoryEn: 'Testing',
+    summary: '围绕页面导航、内容读取、动作、evaluate、元素操作和断言建立 Playwright API 全景。',
+    summaryEn: 'A structured overview of Playwright APIs covering navigation, content, actions, evaluate, element operations, and assertions.',
+  },
 };
