@@ -10,7 +10,14 @@
 // 「副产物导航」整段会被剥离，正文里残留的 ../byproducts/ 链接会被改写
 // 成指向原视频。
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+} from 'node:fs';
 import { basename, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { notes as overrides, siteNotesDir } from './publish.config.mjs';
@@ -19,6 +26,8 @@ const here = fileURLToPath(new URL('.', import.meta.url));
 const projectRoot = resolve(here, '..');
 const noteDir = join(projectRoot, 'media-note');
 const indexPath = join(noteDir, 'README.md');
+const assetSourceDir = join(noteDir, 'assets');
+const assetTargetDir = join(siteNotesDir, 'assets');
 
 const write = process.argv.includes('--write');
 
@@ -124,9 +133,10 @@ function headingText(raw) {
 function parseSourceBlock(md) {
   const link = md.match(/^>\s*来源：\[([^\]]+)\]\(([^)]+)\)/m);
   const meta = md.match(/^>\s*UP 主：(.+?)｜时长：(.+?)｜整理日期：([\d-]+)/m);
+  const sourceUrl = link ? link[2].trim().replace(/^<(.+)>$/, '$1') : null;
   return {
     sourceTitle: link ? link[1].trim() : null,
-    sourceUrl: link ? link[2].trim() : null,
+    sourceUrl,
     author: meta ? meta[1].trim() : null,
     duration: meta ? meta[2].trim() : null,
     date: meta ? meta[3].trim() : null,
@@ -256,6 +266,18 @@ if (!results.length) fail('没有可发布的笔记');
 if (write) {
   mkdirSync(siteNotesDir, { recursive: true });
   for (const r of results) writeFileSync(r.target, r.content, 'utf8');
+
+  const assets = existsSync(assetSourceDir)
+    ? readdirSync(assetSourceDir).filter((file) => !file.startsWith('.'))
+    : [];
+  if (assets.length) {
+    mkdirSync(assetTargetDir, { recursive: true });
+    for (const asset of assets) {
+      copyFileSync(join(assetSourceDir, asset), join(assetTargetDir, asset));
+    }
+    console.log(`已同步 ${assets.length} 个静态资源到站点 assets/。`);
+  }
+
   console.log(`\n已写入 ${results.length} 篇，接下来到站点仓库执行 git commit / push。`);
 } else {
   console.log(`\n共 ${results.length} 篇待发布。确认无误后加 --write 执行。`);
