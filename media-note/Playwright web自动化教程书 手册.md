@@ -668,4 +668,4 @@ page.locator("#modal .message").inner_text()
 
 ## 副产物导航
 
-副产物（原始字幕、时间轴转录、元数据）仅存本地，不进公开仓库。22 个有字幕分 P 的副产物位于本地 `media-artifacts/BV1Gw411N73T-p{N}/` 目录。来源：[https://www.bilibili.com/video/BV1Gw411N73T](https://www.bilibili.com/video/BV1Gw411N73T)
+副产物（原始字幕、时间轴转录、元数据）仅存本地，不进公开仓库。22 个有字幕分 P 的副产物位于本地 `media-artifacts/BV1Gw411N73T/p{N}/` 目录。来源：[https://www.bilibili.com/video/BV1Gw411N73T](https://www.bilibili.com/video/BV1Gw411N73T)
