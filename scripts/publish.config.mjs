@@ -101,4 +101,13 @@ export const notes = {
     summary: '围绕页面导航、内容读取、动作、evaluate、元素操作和断言建立 Playwright API 全景。',
     summaryEn: 'A structured overview of Playwright APIs covering navigation, content, actions, evaluate, element operations, and assertions.',
   },
+
+  'Agent 开发典型范式方法论笔记.md': {
+    slug: 'agent-development-paradigms',
+    titleEn: 'Typical agent development paradigms',
+    category: 'AI / Agent',
+    categoryEn: 'AI / Agent',
+    summary: '从应用场景、技术实现、智能程度三条互补的轴给 Agent 分类，串起 CRAG / Self-RAG、LLMCompiler、LATS、Multi-Agent 与五级智能程度，并给出自主 Agent 的终止与预算边界设计。',
+    summaryEn: 'Classifies agents along three complementary axes — application scenario, technical implementation, and intelligence level — covering CRAG / Self-RAG, LLMCompiler, LATS, multi-agent systems, five levels of agent intelligence, and the termination and budget boundaries every autonomous agent needs.',
+  },
 };

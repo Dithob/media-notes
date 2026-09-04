@@ -20,4 +20,6 @@
 | 笔记 | [测试开发学习路线笔记.md](测试开发学习路线笔记.md)                                                             | Bilibili / 配套路线资料          | 2026-08-31 | [BV1nS4y157Tv](https://www.bilibili.com/video/BV1nS4y157Tv/)    |
 | 笔记 | [Playwright 深入掌握笔记.md](Playwright%20深入掌握笔记.md)                                             | Bilibili / web自动化测试        | 2026-08-31 | [BV17wRQBLEZn](https://www.bilibili.com/video/BV17wRQBLEZn?p=3) |
 | 手册 | [Playwright web自动化教程书 手册.md](Playwright%20web自动化教程书%20手册.md)                                 | Bilibili / 白月黑羽编程          | 2026-09-02 | [BV1Gw411N73T](https://www.bilibili.com/video/BV1Gw411N73T)     |
+| 笔记 | [Agent 开发典型范式方法论笔记.md](Agent%20开发典型范式方法论笔记.md)                                             | Bilibili / AI大模型码农          | 2026-09-04 | [BV1xwVr6FEh4?p=8](https://www.bilibili.com/video/BV1xwVr6FEh4?p=8) |
+| 笔记 | [Agent 典型范式 速记.md](Agent%20典型范式%20速记.md)                                                       | Bilibili / AI大模型码农          | 2026-09-04 | [BV1xwVr6FEh4?p=8](https://www.bilibili.com/video/BV1xwVr6FEh4?p=8) |
 
