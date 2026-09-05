@@ -24,9 +24,14 @@ Target site: <https://dithob.github.io/notes/> (Astro · GitHub Pages/Actions au
 media-notes/
 ├── README.md / README.en.md / README.ja.md   # Trilingual README
 ├── AGENTS.md                                 # Operating manual for agents (naming, workflow, security)
-├── media-note/                               # Main products: finished human-readable notes (flat)
-│   ├── README.md                             # Note index
-│   └── <title> <type>.md
+├── media-note/                               # Main products: finished notes (grouped by category/series)
+│   ├── README.md                             # Note index (grouped by category)
+│   ├── assets/                               # Static assets referenced by notes
+│   ├── <category>/                           # AI 工具指南 / 软件使用说明 / 开发教程 / 学习路线 / 编程基础
+│   │   ├── <title> <type>.md
+│   │   └── <series>/                         # Notes from the same video collection (different parts)
+│   │       └── <title> <type>.md
+│   └── ...
 ├── byproducts/                               # Byproducts: subtitles, metadata, transcripts (local only)
 │   └── <source-id>/
 ├── scripts/                                  # Publishing script publish-notes.mjs
@@ -38,8 +43,8 @@ media-notes/
 ## Quick start
 
 1. Fetch subtitles: `python <skill>/scripts/acquire_subtitle.py subtitle --input "<URL>" --output-dir ./byproducts --main-product-dir ./media-note --preflight`
-2. Have an agent write the main product `media-note/<title> <type>.md` from the transcript
-3. Update the `media-note/README.md` index and append a `## 副产物导航` (byproduct navigation) section at the end of the note
+2. Have an agent write the main product `media-note/<category>/<title> <type>.md` (notes from the same video series go into the same series folder)
+3. Update the matching category table in `media-note/README.md` and append a `## 副产物导航` (byproduct navigation) section at the end of the note
 4. (Optional) `node scripts/publish-notes.mjs --write` to publish to the personal site
 
 Naming rules, workflow details and known pitfalls: [AGENTS.md](AGENTS.md) (in Chinese); full publishing design: [docs/site-notes-publishing.md](docs/site-notes-publishing.md).

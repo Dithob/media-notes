@@ -4,7 +4,8 @@
 // duration / date / sourceId）都不写在这里，由 publish-notes.mjs 解析。
 // 这里只放推不出来的：slug、分类、中英文摘要、英文标题。
 //
-// 新增一篇笔记时，在本文件的 notes 里加一条，key 用 media-note/ 下的文件名。
+// 新增一篇笔记时，在本文件的 notes 里加一条，key 用 media-note/ 下的相对路径
+// （含分类/系列子目录，与 media-note/README.md 索引表标题列链接一致）。
 
 import { fileURLToPath } from 'node:url';
 
@@ -17,7 +18,7 @@ const defaultSiteNotesDir = fileURLToPath(
 export const siteNotesDir = process.env.SITE_NOTES_DIR || defaultSiteNotesDir;
 
 export const notes = {
-  'Pi 使用手册.md': {
+  '软件使用说明/Pi 使用手册.md': {
     slug: 'pi-usage-manual',
     titleEn: 'Pi usage manual',
     category: 'AI / Agent',
@@ -28,7 +29,7 @@ export const notes = {
       'A minimal coding agent with only four tools and a ~1000-token system prompt. MCP, subagents, and plan mode all come back through plugins; the trade-off is near-zero safety restrictions.',
   },
 
-  'Superpowers 与 Harness Engineering 笔记.md': {
+  'AI 工具指南/Superpowers 与 Harness Engineering 笔记.md': {
     slug: 'superpowers-harness-engineering',
     titleEn: 'Superpowers and harness engineering',
     category: 'AI / Agent',
@@ -39,7 +40,7 @@ export const notes = {
       'An agent workflow plugin that locks acceptance criteria with spec + plan, clears context via subagents, and constrains coding with a TDD red-green loop — at the cost of multiplied time and token usage.',
   },
 
-  'Agent Skills 从入门到实战手册.md': {
+  'AI 工具指南/Agent Skills 从入门到实战手册.md': {
     slug: 'agent-skills-practical-manual',
     titleEn: 'A practical manual for Agent Skills',
     category: 'AI / Agent',
@@ -48,7 +49,7 @@ export const notes = {
     summaryEn: 'A practical beginner manual covering Agent Skill concepts, structure, setup, authoring, debugging, and reuse.',
   },
 
-  'Git 与 GitHub 核心概念笔记.md': {
+  '编程基础/Git 与 GitHub 核心概念笔记.md': {
     slug: 'git-github-core-concepts',
     titleEn: 'Git and GitHub core concepts',
     category: 'Engineering',
@@ -57,7 +58,7 @@ export const notes = {
     summaryEn: 'A structured guide to Git version control, GitHub collaboration, branches, commits, merges, and practical workflows.',
   },
 
-  'Pi Agent 使用手册.md': {
+  '软件使用说明/Pi Agent 使用手册.md': {
     slug: 'pi-agent-usage-manual',
     titleEn: 'Pi Agent usage manual',
     category: 'AI / Agent',
@@ -66,7 +67,7 @@ export const notes = {
     summaryEn: 'A practical overview of Pi Agent: its minimal design, setup, plugins, skills, sessions, extensions, and security boundaries.',
   },
 
-  'Pi Agent 工程实现指南.md': {
+  '开发教程/Pi Agent 工程实现指南.md': {
     slug: 'pi-agent-engineering-guide',
     titleEn: 'Pi Agent engineering guide',
     category: 'AI / Agent',
@@ -75,7 +76,7 @@ export const notes = {
     summaryEn: 'An engineering walkthrough of Pi, from its npm monorepo and model abstraction to the agent loop and session storage.',
   },
 
-  'RAG 入门课程笔记.md': {
+  '开发教程/RAG 入门课程笔记.md': {
     slug: 'rag-beginner-course-notes',
     titleEn: 'RAG beginner course notes',
     category: 'AI / RAG',
@@ -84,7 +85,7 @@ export const notes = {
     summaryEn: 'Beginner-friendly notes covering the full RAG path from indexing, retrieval, and generation to evaluation and modular RAG.',
   },
 
-  '测试开发学习路线笔记.md': {
+  '学习路线/测试开发学习路线笔记.md': {
     slug: 'software-testing-development-roadmap',
     titleEn: 'Software testing and development roadmap',
     category: 'Testing',
@@ -93,12 +94,23 @@ export const notes = {
     summaryEn: 'A staged roadmap from programming and testing fundamentals to automation, platform engineering, and career preparation.',
   },
 
-  'Playwright 深入掌握笔记.md': {
+  '开发教程/Playwright 系列/Playwright 深入掌握笔记.md': {
     slug: 'playwright-in-depth',
     titleEn: 'Playwright in depth',
     category: 'Testing',
     categoryEn: 'Testing',
     summary: '围绕页面导航、内容读取、动作、evaluate、元素操作和断言建立 Playwright API 全景。',
     summaryEn: 'A structured overview of Playwright APIs covering navigation, content, actions, evaluate, element operations, and assertions.',
+  },
+
+  '开发教程/Agent方法论/AI Agent 概述与开发指南笔记.md': {
+    slug: 'ai-agent-overview-dev-guide',
+    titleEn: 'AI Agent overview and development guide',
+    category: 'AI / Agent',
+    categoryEn: 'AI / Agent',
+    summary:
+      '从 Agent 定义、ReAct 早期范式、最简核心组件到四层开发技术栈（模型服务 / Agent 类型 / 核心能力 / 开发框架），总纲式梳理 Agent 是什么、怎么开发、学什么。',
+    summaryEn:
+      'An outline-style guide to AI agents: definition, the ReAct early paradigm, minimal core components, and a four-layer tech stack (model services, agent types, core capabilities, frameworks) — what an agent is, how to build one, and what to learn.',
   },
 };

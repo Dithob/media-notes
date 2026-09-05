@@ -24,9 +24,14 @@
 media-notes/
 ├── README.md / README.en.md / README.ja.md   # 3言語対応 README
 ├── AGENTS.md                                 # エージェント向け操作マニュアル（命名・ワークフロー・安全）
-├── media-note/                               # 主成果物：完成したノート（フラット配置）
-│   ├── README.md                             # ノート索引
-│   └── <タイトル> <タイプ>.md
+├── media-note/                               # 主成果物：完成したノート（カテゴリ/シリーズごとにサブディレクトリ）
+│   ├── README.md                             # ノート索引（カテゴリ別）
+│   ├── assets/                               # ノートが参照する静的リソース
+│   ├── <カテゴリ>/                           # AI 工具指南 / 软件使用说明 / 开发教程 / 学习路线 / 编程基础
+│   │   ├── <タイトル> <タイプ>.md
+│   │   └── <シリーズ名>/                     # 同一動画コレクション（別パート）のノートは同じシリーズフォルダへ
+│   │       └── <タイトル> <タイプ>.md
+│   └── ...
 ├── byproducts/                               # 副成果物：字幕・メタデータ・転写（ローカルのみ）
 │   └── <source-id>/
 ├── scripts/                                  # 公開スクリプト publish-notes.mjs
@@ -38,8 +43,8 @@ media-notes/
 ## クイックスタート
 
 1. 字幕取得：`python <skill>/scripts/acquire_subtitle.py subtitle --input "<URL>" --output-dir ./byproducts --main-product-dir ./media-note --preflight`
-2. エージェントが字幕をもとに主成果物 `media-note/<タイトル> <タイプ>.md` を作成
-3. `media-note/README.md` の索引を更新し、ノート末尾に `## 副产物导航`（副成果物ナビゲーション）を追加
+2. エージェントが字幕をもとに主成果物 `media-note/<カテゴリ>/<タイトル> <タイプ>.md` を作成（同一シリーズの動画は同じシリーズフォルダへ）
+3. `media-note/README.md` の対応するカテゴリの索引を更新し、ノート末尾に `## 副产物导航`（副成果物ナビゲーション）を追加
 4. （任意）`node scripts/publish-notes.mjs --write` で個人サイトへ公開
 
 命名規則・ワークフロー詳細・既知の落とし穴は [AGENTS.md](AGENTS.md)（中国語）を参照。公開の完全な設計は [docs/site-notes-publishing.md](docs/site-notes-publishing.md)（中国語）。

@@ -24,9 +24,14 @@
 media-notes/
 ├── README.md / README.en.md / README.ja.md   # 三语 README
 ├── AGENTS.md                                 # 面向 Agent 的操作手册（命名、工作流、安全红线）
-├── media-note/                               # 主产物：人读的成品笔记（平铺）
-│   ├── README.md                             # 笔记索引
-│   └── <标题> <类型>.md
+├── media-note/                               # 主产物：人读的成品笔记（按分类/系列分子目录）
+│   ├── README.md                             # 笔记索引（按分类分组）
+│   ├── assets/                               # 笔记引用的静态资源
+│   ├── <分类>/                               # AI 工具指南 / 软件使用说明 / 开发教程 / 学习路线 / 编程基础
+│   │   ├── <标题> <类型>.md
+│   │   └── <系列名>/                         # 同一视频合集（不同分 P）归入同一系列文件夹
+│   │       └── <标题> <类型>.md
+│   └── ...
 ├── byproducts/                               # 副产物：字幕、元数据、转录（仅存本地）
 │   └── <source-id>/
 ├── scripts/                                  # 发布脚本 publish-notes.mjs
@@ -38,8 +43,8 @@ media-notes/
 ## 快速开始
 
 1. 取字幕：`python <skill>/scripts/acquire_subtitle.py subtitle --input "<URL>" --output-dir ./byproducts --main-product-dir ./media-note --preflight`
-2. 由 Agent 基于字幕写成主产物 `media-note/<标题> <类型>.md`
-3. 更新 `media-note/README.md` 索引，并在笔记文末加 `## 副产物导航`
+2. 由 Agent 基于字幕写成主产物 `media-note/<分类>/<标题> <类型>.md`（同一系列视频归入同一系列文件夹）
+3. 更新 `media-note/README.md` 对应分类的索引，并在笔记文末加 `## 副产物导航`
 4. （可选）`node scripts/publish-notes.mjs --write` 发布到个人站点
 
 命名规则、工作流细节与已知坑见 [AGENTS.md](AGENTS.md)；发布方案完整设计见 [docs/site-notes-publishing.md](docs/site-notes-publishing.md)。

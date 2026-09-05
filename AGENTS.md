@@ -10,10 +10,14 @@
 media-notes/
 ├── README.md / README.en.md / README.ja.md   # 三语 README
 ├── AGENTS.md                                 # 本文件
-├── media-note/                               # 主产物（人读的最终笔记）
+├── media-note/                               # 主产物（人读的最终笔记，按分类/系列分子目录）
 │   ├── README.md                             # 笔记索引
-│   ├── assets/                               # 笔记引用的静态资源
-│   └── <标题> <类型>.md
+│   ├── assets/                               # 笔记引用的静态资源（子目录笔记以 ../assets/ 引用）
+│   ├── <分类>/                               # 如 AI 工具指南 / 软件使用说明 / 开发教程 / 学习路线 / 编程基础
+│   │   ├── <标题> <类型>.md
+│   │   └── <系列名>/                         # 同一视频合集的笔记归入同一系列文件夹
+│   │       └── <标题> <类型>.md
+│   └── ...
 ├── byproducts/                               # 副产物（字幕、元数据、转录；仅存本地）
 │   ├── README.md
 │   └── <source-id>/
@@ -30,9 +34,27 @@ media-notes/
 
 ## 主产物 `media-note/`
 
-成品笔记**直接平铺**在 `media-note/` 根目录，不再按来源分子目录。
+成品笔记**按分类**放在 `media-note/` 的分类子目录下，不再平铺在根目录。
 
-命名：`<标题或内容主题> <类型>.md`，类型取其一：
+### 分类
+
+| 分类 | 用于 |
+| --- | --- |
+| `AI 工具指南` | AI skills、插件等工具的使用与实战 |
+| `软件使用说明` | 具体软件 / Agent 产品的使用说明 |
+| `开发教程` | RAG、Agent、源码工程等开发向教程 |
+| `学习路线` | 阶段式学习路线 |
+| `编程基础` | 通用编程基础概念 |
+
+分类不限于上表，按内容主题增减；拿不准时优先按「内容主题」而不是来源分类。
+
+### 系列文件夹
+
+同一视频合集（同一 UP 主的系列、B 站多分 P 等）的笔记**必须**放在同一系列文件夹中，如 `开发教程/Agent方法论/`、`开发教程/Playwright 系列/`。系列文件夹位于分类文件夹之下；后续新增同系列笔记直接落入该文件夹，不要新开目录。
+
+### 命名
+
+`<标题或内容主题> <类型>.md`，类型取其一：
 
 | 类型 | 用于 |
 | --- | --- |
@@ -52,12 +74,20 @@ media-notes/
   > UP 主：<作者>｜时长：<mm:ss>｜整理日期：<YYYY-MM-DD>
   ```
 - 每篇笔记文末必须有 `## 副产物导航`，链接回对应 `byproducts/<source-id>/README.md`；
-- 每新增一篇，同步在 `media-note/README.md` 索引里加一行。
+- 每新增一篇，同步在 `media-note/README.md` 对应分类的表里加一行。
 
-索引表列结构（发布脚本解析依赖，**第 5 列必须是「来源链接」**，格式为指向原视频的 Markdown 链接，如 `[BV1V49MBLE6y](https://www.bilibili.com/video/BV1V49MBLE6y)`）：
+### 索引表
+
+`media-note/README.md` 按分类分组，每个分类一张表；表列结构（发布脚本解析依赖，**第 5 列必须是「来源链接」**，格式为指向原视频的 Markdown 链接，如 `[BV1V49MBLE6y](https://www.bilibili.com/video/BV1V49MBLE6y)`）：
 
 ```
 | 类型 | 标题 | 来源 | 生成日期 | 来源链接 |
+```
+
+标题列的**链接**必须指向 `media-note/` 下的相对路径（含分类/系列目录，空格用 `%20`），发布脚本按链接而非链接文字解析文件位置。示例：
+
+```
+| 笔记 | [AI Agent 概述与开发指南笔记.md](开发教程/Agent方法论/AI%20Agent%20概述与开发指南笔记.md) | Bilibili / AI大模型码农 | 2026-09-05 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=7) |
 ```
 
 ## 副产物 `byproducts/`
@@ -74,8 +104,8 @@ media-notes/
 
 1. 拿到 URL 或本地文件，先取字幕，**不要走 BibiGPT 总结接口**；
 2. 副产物落到 `byproducts/<source-id>/`，同时用 `--main-product-dir` 让脚本生成的链接指向 `media-note/`；
-3. 由 Codex 基于字幕整理主产物，写进 `media-note/<标题> <类型>.md`；
-4. 更新 `media-note/README.md` 索引，并在笔记文末加副产物导航。
+3. 由 Codex 基于字幕整理主产物，按分类写进 `media-note/<分类>/`（同一系列视频归入同一系列文件夹）；
+4. 更新 `media-note/README.md` 对应分类的索引表，并在笔记文末加副产物导航。
 
 取字幕的实际命令（在项目根目录执行）：
 
@@ -91,7 +121,7 @@ python <skill>/scripts/acquire_subtitle.py subtitle \
 
 ### 两个已知的坑
 
-1. **脚本按 slug 生成主产物链接名**（空格转成 `-`，如 `Superpowers-与-Harness-Engineering-笔记.md`），而笔记文件按本目录约定用空格命名。所以脚本写进 README 的链接是断的，**写完笔记后要手动把链接改成真实文件名**。
+1. **脚本按 slug 生成主产物链接名**（空格转成 `-`，如 `Superpowers-与-Harness-Engineering-笔记.md`），而笔记文件按本目录约定用空格命名。所以脚本写进 README 的链接是断的，**写完笔记后要手动把链接改成真实文件名（含分类/系列目录的相对路径，空格用 `%20`）**。
 2. 脚本会把一段 `<!-- media-content-distiller:index -->` 索引块追加到 `byproducts/README.md`，其中仍可能出现 `media-artifacts/` 的旧措辞，同样需要按本目录约定修正。
 
 ## 发布到个人站点

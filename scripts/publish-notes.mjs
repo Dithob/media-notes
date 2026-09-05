@@ -11,7 +11,7 @@
 // 成指向原视频。
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync } from 'node:fs';
-import { basename, join, resolve } from 'node:path';
+import { join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { notes as overrides, siteNotesDir } from './publish.config.mjs';
 
@@ -39,10 +39,11 @@ function readIndex() {
     const cells = line.split('|').map((c) => c.trim()).filter(Boolean);
     if (cells.length < 5 || cells[0] === '类型' || cells[0].startsWith('-')) continue;
     const [, titleCell, source, date, sourceLinkCell] = cells;
-    const fileMatch = titleCell.match(/\[([^\]]+\.md)\]/);
+    // 标题列的链接指向 media-note/ 下的相对路径（含分类/系列目录）
+    const fileMatch = titleCell.match(/\]\(([^)]+\.md)\)/);
     const idMatch = sourceLinkCell.match(/(?:video\/|v=)([\w-]+)/);
     if (!fileMatch) continue;
-    rows.set(fileMatch[1], {
+    rows.set(decodeURIComponent(fileMatch[1]), {
       type: cells[0],
       title: fileMatch[1].replace(/\.md$/, ''),
       source,
@@ -197,8 +198,19 @@ function buildFrontmatter(entry, meta, override) {
 
 // ---------- 主流程 ----------
 
+// 递归收集 media-note/ 下所有笔记（分类/系列子目录），返回相对路径。
+function walkMds(dir) {
+  const out = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...walkMds(full));
+    else if (entry.name.endsWith('.md') && entry.name !== 'README.md') out.push(full);
+  }
+  return out;
+}
+
 const index = readIndex();
-const files = readdirSync(noteDir).filter((f) => f.endsWith('.md') && f !== 'README.md');
+const files = walkMds(noteDir).map((f) => relative(noteDir, f).split(sep).join('/'));
 
 if (!files.length) fail('media-note/ 下没有笔记文件');
 
@@ -242,7 +254,7 @@ if (sluggerLabel) console.log(`锚点 slugger：${sluggerLabel}（与站点构�
 console.log();
 
 for (const r of results) {
-  console.log(`  ${basename(r.file)}  ->  ${r.slug}.md`);
+  console.log(`  ${r.file}  ->  ${r.slug}.md`);
   console.log(`      剥离副产物导航 ${r.stats.hadNav ? '是' : '否'}｜改写链接 ${r.stats.rewritten} 处｜标题锚点 ${r.stats.anchorCount} 个`);
 }
 

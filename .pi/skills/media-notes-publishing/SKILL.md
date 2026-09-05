@@ -24,7 +24,7 @@ media-notes 是一个音视频内容提取与整理工作区：用 `media-conten
    ```
    `<skill>` 为 `C:\Users\wujue\.workbuddy\skills\media-content-distiller`。副产物落在 `byproducts/<source-id>/`，**仅存本地**（已 gitignore，不进仓库）。
 
-2. **整理笔记**：基于字幕由 Agent 写成 `media-note/<标题> <类型>.md`，类型为 `笔记` / `指南` / `手册` 之一。命名规则：
+2. **整理笔记**：基于字幕由 Agent 写成 `media-note/<分类>/<标题> <类型>.md`，类型为 `笔记` / `指南` / `手册` 之一。分类取 `AI 工具指南` / `软件使用说明` / `开发教程` / `学习路线` / `编程基础`（或按内容主题新增）；**同一视频合集（同一 UP 主的系列、多分 P）的笔记归入同一系列文件夹**，如 `media-note/开发教程/Agent方法论/`。命名规则：
    - 用清理后的标题，不拼技术后缀（`-raw-subtitle` 等），不写 BV 号；
    - 同名文件已存在时追加短来源 ID，不覆盖；
    - 正文开头必须有来源引用块（发布脚本依赖它解析元数据）：
@@ -34,12 +34,16 @@ media-notes 是一个音视频内容提取与整理工作区：用 `media-conten
      ```
    - 文末必须有 `## 副产物导航` 段（注明副产物仅存本地并附原视频链接；发布时整段会被剥掉）。
 
-3. **更新索引**：`media-note/README.md` 表格加一行。列结构（发布脚本解析依赖，**第 5 列必须是「来源链接」**，格式为指向原视频的 Markdown 链接，如 `[BV1V49MBLE6y](https://www.bilibili.com/video/BV1V49MBLE6y)`）：
+3. **更新索引**：`media-note/README.md` 对应分类的表里加一行。列结构（发布脚本解析依赖，**第 5 列必须是「来源链接」**，格式为指向原视频的 Markdown 链接，如 `[BV1V49MBLE6y](https://www.bilibili.com/video/BV1V49MBLE6y)`）：
    ```
    | 类型 | 标题 | 来源 | 生成日期 | 来源链接 |
    ```
+   标题列的**链接**指向 `media-note/` 下的相对路径（含分类/系列目录，空格用 `%20`），发布脚本按链接解析文件位置：
+   ```
+   | 笔记 | [AI Agent 概述与开发指南笔记.md](开发教程/Agent方法论/AI%20Agent%20概述与开发指南笔记.md) | ... |
+   ```
 
-4. **加发布配置**：在 `scripts/publish.config.mjs` 的 `notes` 对象里加一条，key 用 `media-note/` 下的文件名。只填脚本推不出来的字段：`slug`、`category`、`categoryEn`、`summary`、`summaryEn`、`titleEn`。**不加配置脚本会跳过该笔记并提示。**
+4. **加发布配置**：在 `scripts/publish.config.mjs` 的 `notes` 对象里加一条，key 用 `media-note/` 下的**相对路径**（含分类/系列目录）。只填脚本推不出来的字段：`slug`、`category`、`categoryEn`、`summary`、`summaryEn`、`titleEn`。**不加配置脚本会跳过该笔记并提示。**
 
 5. **预演**：`node scripts/publish-notes.mjs`（只报告，不写文件）。检查输出里的剥离/改写/锚点统计。
 
