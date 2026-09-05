@@ -1,5 +1,6 @@
 ---
 name: media-content-distiller
+tags: ["subtitle-extraction", "transcription", "video-notes", "bilibili", "youtube", "content-distillation", "ai-agents"]
 description: "Use when a user provides a public audio/video URL or subtitle JSON and wants a transcript, summary, structured outline, operation manual, learning note, or source-faithful analysis. For one-off URL tasks, call the BibiGPT subtitle API directly with curl; use this skill's Node.js CLI only for Token setup/probing, repeatable batch work, offline rendering, and artifact layout. Do not upload local media automatically. Keep timelines, evidence, and boundaries in source sidecars instead of the main document."
 ---
 

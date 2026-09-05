@@ -1,5 +1,6 @@
 ---
 name: extract-tool-registration
+tags: ["web-automation", "ui-testing", "account-registration", "api-key-management", "bibigpt", "cdp"]
 description: >
   【网页 Web UI 自动化测试技能 · 仅用于学习与测试】
   在 bibigpt.co 上验证「提取工具」（BibiGPT 字幕提取 API）的账号注册流程与

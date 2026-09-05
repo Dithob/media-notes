@@ -1,5 +1,6 @@
 ---
 name: media-notes-publishing
+tags: ["notes-publishing", "astro", "markdown-pipeline", "personal-site", "media-notes"]
 description: media-notes 项目的笔记发布 skill。当用户要求新增媒体笔记（字幕 → 笔记 → 索引 → 配置）、把 media-note/ 下的笔记发布到个人站点 https://dithob.github.io/notes/、或询问发布脚本/数据流逻辑时使用。涵盖新增笔记完整流程、publish-notes.mjs 的调用方式（预演/写入）、转换规则与已知坑。
 ---
 
