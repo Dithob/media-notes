@@ -1,8 +1,12 @@
-# Skills（本仓库 = skills.sh 技能源）
+# Skills（本仓库 = `npx skills` 技能源）
 
-本目录是 [skills.sh](https://www.skills.sh/Dithob/media-notes) 的技能源仓库：目录下的每个子目录
-是一个标准 Agent Skill（`SKILL.md` + YAML frontmatter），可通过 `npx skills` 直接安装到
+本目录是技能源仓库（`npx skills add Dithob/media-notes`）：目录下的每个子目录
+是一个标准 Agent Skill（`SKILL.md` + YAML frontmatter），可通过 `npx skills` 从 GitHub 直接安装到
 Claude Code、Codex、Cursor、Gemini CLI、Pi 等 agent。
+
+> 注意：[skills.sh 目录页 `https://skills.sh/dithob/media-notes`](https://skills.sh/dithob/media-notes)
+> 目前返回 404、尚未收录本仓库（skills.sh 索引里仍指向已归档的旧仓库
+> `Dithob/media-content-distiller`）。安装与迭代不依赖该页面，`npx skills` 直接读取 GitHub `main` 分支。
 
 ## 技能清单
 
@@ -40,7 +44,7 @@ skills/
 - 每个技能自包含：不引用仓库其他路径，副本可直接安装到任意 agent；
 - `name` 为小写 kebab-case，目录名与 frontmatter `name` 保持一致；
 - 新增技能 = 新增子目录 + `SKILL.md`，本表加一行；
-- 技能迭代后提交到 `main`，skills.sh 会自动重新收录（页面 `https://skills.sh/Dithob/media-notes`）。
+- 技能迭代后提交到 `main` 即可被 `npx skills` 安装；skills.sh 目录页是否收录以其抓取结果为准（当前 `https://skills.sh/dithob/media-notes` 为 404，不代表不可安装）。
 
 ## 安全边界
 
