@@ -4,7 +4,7 @@
  源：`D:/TestProjects/media-notes/media-note/`
  目标 URL：`https://dithob.github.io/notes/` 与 `https://dithob.github.io/notes/<slug>/`
 
-本文是**实施前的设计稿**，站点侧尚未改动。media-notes 侧的发布脚本已实现，见 `scripts/publish-notes.mjs`。
+本文是**实施前的设计稿**；站点侧已按本方案完成改造（2026-09），media-notes 侧发布脚本见 `scripts/publish-notes.mjs`。现在作为设计参考与验收清单保留，站点侧现状以 dithob.github.io 仓库为准。
 
 ---
 
