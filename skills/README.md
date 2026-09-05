@@ -10,6 +10,7 @@ Claude Code、Codex、Cursor、Gemini CLI、Pi 等 agent。
 | --- | --- | --- |
 | [`media-content-distiller`](media-content-distiller/) | 音视频内容蒸馏：公开 URL → BibiGPT 字幕（curl 或自带 Node CLI）→ AI 整理成摘要/大纲/手册/学习笔记 | `npx skills add Dithob/media-notes --skill media-content-distiller -g -y` |
 | [`extract-tool-registration`](extract-tool-registration/) | 提取工具（BibiGPT）账号注册与开放平台 API Key 获取（Web UI 自动化测试 · 仅学习/测试） | `npx skills add Dithob/media-notes --skill extract-tool-registration -g -y` |
+| [`media-notes-publishing`](../.pi/skills/media-notes-publishing/) | 本仓库的笔记发布说明：字幕 → 笔记 → 索引 → publish-notes.mjs 发布到个人站点（存放于 `.pi/skills/`，pi 项目技能；同为源的一部分） | `npx skills add Dithob/media-notes --skill media-notes-publishing -g -y` |
 
 ## 安装全部技能
 
@@ -30,6 +31,10 @@ skills/
 └── extract-tool-registration/
     ├── SKILL.md
     └── scripts/verify-tokens.sh
+
+../.pi/skills/
+└── media-notes-publishing/        # pi 项目技能（也是本源的第三个 skill）
+    └── SKILL.md
 ```
 
 - 每个技能自包含：不引用仓库其他路径，副本可直接安装到任意 agent；

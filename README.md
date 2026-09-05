@@ -26,14 +26,16 @@
 
 ## 配套技能（skills.sh 技能源）
 
-本仓库同时是 [skills.sh](https://skills.sh) 的技能源：配套的 `media-content-distiller` 与
-`extract-tool-registration`（原 `bibigpt-account-registration`，已更名并通用化）都放在
-[`skills/`](skills/README.md) 下，github.com 仓库即可被 skills.sh 收录（
+本仓库同时是 [skills.sh](https://skills.sh) 的技能源：配套的 `media-content-distiller`、
+`extract-tool-registration`（原 `bibigpt-account-registration`，已更名并通用化）放在
+[`skills/`](skills/README.md)，项目本身使用的 `media-notes-publishing` 在 `.pi/skills/`
+（pi 项目技能，同样会被收录），github.com 仓库即可被 skills.sh 收录（
 <https://skills.sh/Dithob/media-notes>），任何 agent 一条命令安装：
 
 ```bash
 npx skills add Dithob/media-notes --skill media-content-distiller
 npx skills add Dithob/media-notes --skill extract-tool-registration
+npx skills add Dithob/media-notes --skill media-notes-publishing
 npx skills add Dithob/media-notes --list        # 查看全部
 ```
 
