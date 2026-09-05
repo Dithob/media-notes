@@ -24,6 +24,24 @@
 
 发布目标站点：<https://dithob.github.io/notes/>（Astro，GitHub Pages / Actions 自动构建）。
 
+## 配套技能（skills.sh 技能源）
+
+本仓库同时是 [skills.sh](https://skills.sh) 的技能源：配套的 `media-content-distiller` 与
+`extract-tool-registration`（原 `bibigpt-account-registration`，已更名并通用化）都放在
+[`skills/`](skills/README.md) 下，github.com 仓库即可被 skills.sh 收录（
+<https://skills.sh/Dithob/media-notes>），任何 agent 一条命令安装：
+
+```bash
+npx skills add Dithob/media-notes --skill media-content-distiller
+npx skills add Dithob/media-notes --skill extract-tool-registration
+npx skills add Dithob/media-notes --list        # 查看全部
+```
+
+[![skills.sh](https://skills.sh/b/Dithob/media-notes)](https://skills.sh/Dithob/media-notes)
+
+> 说明：`media-content-distiller` 原本单独存放在 <https://github.com/Dithob/media-content-distiller>，
+> 迁移后该仓库已归档，只留 README 指向本仓库 `skills/`。
+
 ## 目录约定
 
 工作区只分两层：**给人读的成品笔记**放 `media-note/`，**提取过程的副产物**放 `byproducts/`。
