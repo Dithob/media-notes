@@ -78,10 +78,15 @@ def check_no_secrets() -> None:
 
 
 def run(*args: str, expect: int = 0, env: dict[str, str] | None = None) -> str:
-    proc = subprocess.run(args, cwd=ROOT, text=True, capture_output=True, env=env)
+    # Node always emits UTF-8 on pipes; on Windows the default text decoding is
+    # the locale codec (e.g. GBK), which crashes the reader thread on CJK output.
+    proc = subprocess.run(
+        args, cwd=ROOT, text=True, capture_output=True, env=env,
+        encoding="utf-8", errors="replace",
+    )
     if proc.returncode != expect:
         fail(f"command failed ({proc.returncode} != {expect}): {' '.join(args)}\n{proc.stdout}{proc.stderr}")
-    return proc.stdout
+    return proc.stdout or ""
 
 
 def test_offline_cli() -> None:
@@ -124,7 +129,8 @@ def test_registry_permissions() -> None:
     with tempfile.TemporaryDirectory() as temp_dir:
         registry = Path(temp_dir) / "accounts.json"
         run("node", "bin/media-content-distiller.mjs", "init", "--registry", str(registry), "--slots", "1")
-        if stat.S_IMODE(registry.stat().st_mode) != 0o600:
+        # POSIX-only check: Windows has no permission bits (mode always 0o666).
+        if os.name != "nt" and stat.S_IMODE(registry.stat().st_mode) != 0o600:
             fail("registry is not private")
         listed = run("node", "bin/media-content-distiller.mjs", "list", "--registry", str(registry))
         if "api_token" in listed or "Bearer" in listed:
@@ -186,6 +192,7 @@ def main() -> int:
         proc = subprocess.run(
             [node, "--", "bin/media-content-distiller.mjs", "subtitle", "--url", "https://example.invalid/video", "--env-file", str(Path(temp_dir) / ".env"), "--no-prompt"],
             cwd=ROOT, text=True, capture_output=True, env=clean_env,
+            encoding="utf-8", errors="replace",
         )
         if proc.returncode == 0 or "no network request was made" not in proc.stderr:
             fail("missing credential branch failed its safety check")

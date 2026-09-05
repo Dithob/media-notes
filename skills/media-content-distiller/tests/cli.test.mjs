@@ -26,6 +26,27 @@ function tempDirectory() {
   return fs.mkdtempSync(path.join(os.tmpdir(), "media-content-distiller-cli-"));
 }
 
+// On Windows the shebang-less shell wrapper cannot be spawned directly;
+// run the portable .mjs entry point through the current Node binary instead.
+function spawnOurCli(args, options = {}) {
+  if (process.platform === "win32") {
+    return spawnSync(
+      process.execPath,
+      [path.join(ROOT, "bin", "media-content-distiller.mjs"), "--", ...args],
+      { encoding: "utf8", ...options },
+    );
+  }
+  return spawnSync(BIN, args, { encoding: "utf8", ...options });
+}
+
+// Windows has no POSIX permission bits: fs.stat mode always reports 0o666,
+// so the 0600 assertion is only meaningful on POSIX platforms.
+function assertPrivateFileMode(filePath) {
+  if (process.platform !== "win32") {
+    assert.equal(fs.statSync(filePath).mode & 0o777, 0o600);
+  }
+}
+
 async function captureCli(args) {
   const output = { stdout: "", stderr: "" };
   const originalStdoutWrite = process.stdout.write;
@@ -141,7 +162,7 @@ test("registry is private and CLI list never prints a Token", async () => {
     registry.accounts[0].api_token = "secret-value";
     registry.accounts[0].remaining_minutes = null;
     saveRegistry(registryPath, registry);
-    assert.equal(fs.statSync(registryPath).mode & 0o777, 0o600);
+    assertPrivateFileMode(registryPath);
 
     const result = await captureCli(["list", "--registry", registryPath]);
     assert.equal(result.code, 0);
@@ -189,18 +210,17 @@ test("Node CLI init, setup, bind, and list keep registry credentials private", a
       "1",
     ]);
     assert.equal(init.code, 0);
-    assert.equal(fs.statSync(registryPath).mode & 0o777, 0o600);
+    assertPrivateFileMode(registryPath);
 
-    const setup = spawnSync(
-      BIN,
+    const setup = spawnOurCli(
       ["setup", "--registry", registryPath, "--env-file", envPath,
         "--token-stdin", "--acknowledge-plaintext-token-storage", "--skip-probe"],
-      { input: token, encoding: "utf8" },
+      { input: token },
     );
     assert.equal(setup.status, 0, setup.stderr);
     assert.doesNotMatch(setup.stdout, new RegExp(token));
     assert.doesNotMatch(setup.stderr, new RegExp(token));
-    assert.equal(fs.statSync(registryPath).mode & 0o777, 0o600);
+    assertPrivateFileMode(registryPath);
     assert.match(fs.readFileSync(envPath, "utf8"), /BIBIGPT_TOKEN_REGISTRY=/);
 
     const bind = await captureCli([

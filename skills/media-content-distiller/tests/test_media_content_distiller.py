@@ -1,4 +1,5 @@
 import json
+import os
 import stat
 import subprocess
 import sys
@@ -8,6 +9,18 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
+
+# Node emits UTF-8 on pipes; on Windows the default text decoding is the locale
+# codec (e.g. GBK), which kills the reader thread on CJK output instead of
+# decoding. Force UTF-8 on every captured subprocess.
+SUBPROCESS_ENCODING = {"encoding": "utf-8", "errors": "replace"}
+
+
+# Windows has no POSIX permission bits (mode always 0o666); that assertion is
+# only meaningful on POSIX platforms.
+def assert_private_mode(test: unittest.TestCase, path: Path) -> None:
+    if os.name != "nt":
+        test.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o600)
 
 
 class PythonCompatibilityTests(unittest.TestCase):
@@ -48,6 +61,7 @@ class PythonCompatibilityTests(unittest.TestCase):
                 text=True,
                 capture_output=True,
                 check=True,
+                **SUBPROCESS_ENCODING,
             )
             self.assertEqual(json.loads(proc.stdout)[0]["text"], "hello")
 
@@ -67,8 +81,9 @@ class PythonCompatibilityTests(unittest.TestCase):
                 text=True,
                 capture_output=True,
                 check=True,
+                **SUBPROCESS_ENCODING,
             )
-            self.assertEqual(stat.S_IMODE(path.stat().st_mode), 0o600)
+            assert_private_mode(self, path)
             self.assertNotIn("api_token", proc.stdout)
 
     def test_python_render_wrapper_writes_transcript(self):
@@ -105,6 +120,7 @@ class PythonCompatibilityTests(unittest.TestCase):
                 text=True,
                 capture_output=True,
                 check=True,
+                **SUBPROCESS_ENCODING,
             )
             transcript = (output / "transcript.md").read_text(encoding="utf-8")
             self.assertIn("第一句\n第二句", transcript)

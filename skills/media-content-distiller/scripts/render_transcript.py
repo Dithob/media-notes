@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 import argparse
-import os
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -53,7 +53,10 @@ def main() -> None:
     ]
     if args.metadata:
         command.extend(["--metadata", str(args.metadata)])
-    os.execv(node, command)
+    # os.execv duplicates argv[0] into the command line on Windows (node then
+    # tries to load its own path as a module); subprocess.call keeps stdout
+    # passing straight through, so Node's UTF-8 output is preserved.
+    raise SystemExit(subprocess.call(command))
 
 
 if __name__ == "__main__":

@@ -9,6 +9,19 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const BIN = path.join(ROOT, "bin", "media-content-distiller");
+
+// On Windows the shebang-less shell wrapper cannot be spawned directly;
+// run the portable .mjs entry point through the current Node binary instead.
+function spawnOurCli(args, options = {}) {
+  if (process.platform === "win32") {
+    return spawnSync(
+      process.execPath,
+      [path.join(ROOT, "bin", "media-content-distiller.mjs"), "--", ...args],
+      { encoding: "utf8", ...options },
+    );
+  }
+  return spawnSync(BIN, args, { encoding: "utf8", ...options });
+}
 const requiredFiles = [
   "package.json",
   "bin/media-content-distiller",
@@ -29,11 +42,11 @@ for (const file of ["bin/media-content-distiller.mjs", "lib/core.mjs", "lib/cli.
   assert.equal(result.status, 0, `${file} failed syntax check:\n${result.stderr}`);
 }
 
-const help = spawnSync(BIN, ["--help"], { encoding: "utf8" });
+const help = spawnOurCli(["--help"]);
 assert.equal(help.status, 0);
 assert.match(help.stdout, /No Python or third-party npm package is required/);
 
-const version = spawnSync(BIN, ["--version"], { encoding: "utf8" });
+const version = spawnOurCli(["--version"]);
 assert.equal(version.status, 0);
 assert.match(version.stdout.trim(), /^\d+\.\d+\.\d+$/);
 
@@ -45,8 +58,7 @@ assert.equal(packageJson.bin?.["media-content-distiller"], "./bin/media-content-
 const temporary = fs.mkdtempSync(path.join(os.tmpdir(), "media-content-distiller-verify-"));
 try {
   const isolatedEnv = path.join(temporary, ".env");
-  const noCredential = spawnSync(
-    BIN,
+  const noCredential = spawnOurCli(
     [
       "subtitle",
       "--url",
@@ -56,7 +68,6 @@ try {
       "--no-prompt",
     ],
     {
-      encoding: "utf8",
       env: Object.fromEntries(
         Object.entries(process.env).filter(
           ([key]) => !key.startsWith("BIBI") && !key.startsWith("BIBIGPT"),
