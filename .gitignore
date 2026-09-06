@@ -14,7 +14,14 @@ byproducts/
 # 节点依赖
 node_modules/
 
+# 临时文件
+temp/
+
 # 系统与编辑器
 .DS_Store
 Thumbs.db
 desktop.ini
+
+
+# 任务清单
+TASK*

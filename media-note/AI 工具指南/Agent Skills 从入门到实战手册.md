@@ -26,7 +26,7 @@
 
 ### 0.2 课程中反复出现的术语纠正
 
-字幕中因语音识别出现了“scale”“score”“SKYE”等写法，本手册统一按 **Skill / Agent Skill** 理解；“Cloud Code”等产品名也应以实际产品官方名称和当前文档为准。课程演示中的软件、模型、仓库地址、价格和可用额度可能随时间变化，安装或接入前请重新查看官方文档。
+字幕中因语音识别出现了“scale”“score”“SKYE”等写法，本手册统一按 **Skill / Agent Skill** 理解（完整对照表仅存本地，不随手册发布）。课程演示中的软件、模型、仓库地址、价格和可用额度可能随时间变化，安装或接入前请重新查看官方文档。
 
 ---
 
@@ -608,3 +608,5 @@ Skill 名称：
 ## 副产物导航
 
 副产物（原始字幕、时间轴转录、元数据）仅存本地，不进公开仓库。来源：[https://www.bilibili.com/video/BV1ugdgBQED4](https://www.bilibili.com/video/BV1ugdgBQED4)
+
+- ASR 还原对照：[`docs/asr-corrections/iwenwiki.md`](../../docs/asr-corrections/iwenwiki.md)｜存疑待审：[`docs/asr-corrections/存疑清单.md`](../../docs/asr-corrections/存疑清单.md)（均仅本地，不发布）

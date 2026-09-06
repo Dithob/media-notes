@@ -3,7 +3,7 @@
 > 来源：[【Agent方法论】06.Agent应用开发指南 - 【全748集】目前B站最全最细的AI Agent开发零基础教程，2026最新版，包含所有干货！七天就能从小白到大神！少走99%的弯路！学完即就业，带你玩转AI！](https://www.bilibili.com/video/BV1xwVr6FEh4?p=7)
 > UP 主：AI大模型码农｜时长：22:53｜整理日期：2026-09-05
 
-> 基于《Agent 方法论》系列第 6 课（第 7 集）字幕与课程 PPT 截图整理。本课是一节**总纲课**：不急着写代码，先建立 Agent 开发的整体认知和知识架构，后续课程再对照核心技术栈逐层深挖。字幕语音识别有噪声，关键术语已按上下文还原（见文末术语对照表）。
+> 基于《Agent 方法论》系列第 6 课（第 7 集）字幕与课程 PPT 截图整理。本课是一节**总纲课**：不急着写代码，先建立 Agent 开发的整体认知和知识架构，后续课程再对照核心技术栈逐层深挖。字幕语音识别有噪声，**关键术语已按上下文还原**（还原对照与存疑项仅存本地，不随笔记发布）。
 
 ## 0. 先看结论
 
@@ -172,34 +172,15 @@
 
 ---
 
-## 6. 术语对照（字幕 ASR 还原）
-
-| 字幕原词 | 实际术语 |
-| --- | --- |
-| 年CHEN / NCHEN / 南茜 / 连倩 / MANCHIN | LangChain |
-| 津巴兔 | Gemma |
-| 拉A3 | Llama 3 |
-| GPTBT | GPT-1（2018） |
-| 欧拉玛 | Ollama |
-| hagin face top | Hugging Face |
-| 费三 | Phi-3 |
-| MISTROMISTALAI | Mistral AI |
-| chill fts | Chain-of-Thought（思维链） |
-| fuel short | few-shot |
-| market agent | multi-agent（多智能体） |
-| A证 / A型 | Agent |
-| cloud3 / claud3.5 | Claude 3 / Claude 3.5 |
-| 用开发时代领和微调 | 大模型开发与微调（ASR 不确定） |
-
----
-
-## 7. 边界说明
+## 6. 边界说明
 
 - 本笔记基于第 7 集（22:53）**字幕**与课程 **PPT 截图**整理；PPT 原文引用处与字幕一致；
 - 本课是**总纲课**：Agent 类型三个维度、各框架细节、生产部署等只做引入，具体展开在后续课程；
 - 课件中模型版本（Claude 3、GPT-4、Gemma 2、Phi-3 等）为课程制作时点的信息，实际以当前官方版本为准；
-- 字幕存在语音识别噪声，关键术语已按上下文还原（见上表）；无法确认处已标注。
+- 字幕存在语音识别噪声，**关键术语已按上下文还原**（还原对照与存疑项仅存本地，不随笔记发布）；无法确认处已标注。
 
 ## 副产物导航
 
 副产物（原始字幕、时间轴转录、元数据）仅存本地，不进公开仓库。来源：[https://www.bilibili.com/video/BV1xwVr6FEh4?p=7](https://www.bilibili.com/video/BV1xwVr6FEh4?p=7)
+
+- ASR 还原对照：[`docs/asr-corrections/AI大模型码农.md`](../../../docs/asr-corrections/AI大模型码农.md)｜存疑待审：[`docs/asr-corrections/存疑清单.md`](../../../docs/asr-corrections/存疑清单.md)（均仅本地，不发布）

@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | `AI 工具指南` | AI skills、插件等工具的使用与实战 | 2 |
 | `软件使用说明` | 具体软件 / Agent 产品的使用说明 | 2 |
-| `开发教程` | RAG、Agent、源码工程等开发向教程 | 4 |
+| `开发教程` | RAG、Agent、源码工程等开发向教程 | 10 |
 | `学习路线` | 阶段式学习路线 | 1 |
 | `编程基础` | 通用编程基础概念 | 1 |
 
@@ -39,6 +39,22 @@
 | 类型 | 标题 | 来源 | 生成日期 | 来源链接 |
 | --- | --- | --- | --- | --- |
 | 笔记 | [AI Agent 概述与开发指南笔记.md](开发教程/Agent方法论/AI%20Agent%20概述与开发指南笔记.md) | Bilibili / AI大模型码农 | 2026-09-05 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=7) |
+| 笔记 | [Agent 核心能力、开发框架与外围技术栈笔记.md](开发教程/Agent方法论/Agent%20核心能力、开发框架与外围技术栈笔记.md) | Bilibili / AI大模型码农 | 2026-09-06 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=9) |
+| 笔记 | [大模型时代的 Agent 开发方法论笔记.md](开发教程/Agent方法论/大模型时代的%20Agent%20开发方法论笔记.md) | Bilibili / AI大模型码农 | 2026-09-06 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=10) |
+
+### Agent进阶篇（AI大模型码农 · B站系列）
+
+| 类型 | 标题 | 来源 | 生成日期 | 来源链接 |
+| --- | --- | --- | --- | --- |
+| 笔记 | [Agent 原理与多智能体协同笔记.md](开发教程/Agent进阶篇/Agent%20原理与多智能体协同笔记.md) | Bilibili / AI大模型码农 | 2026-09-06 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=11) |
+| 笔记 | [客户数据分析与营销方案实战笔记.md](开发教程/Agent进阶篇/客户数据分析与营销方案实战笔记.md) | Bilibili / AI大模型码农 | 2026-09-06 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=12) |
+| 笔记 | [Agent 多行业落地场景笔记.md](开发教程/Agent进阶篇/Agent%20多行业落地场景笔记.md) | Bilibili / AI大模型码农 | 2026-09-06 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=13) |
+
+### Agent项目篇（AI大模型码农 · B站系列）
+
+| 类型 | 标题 | 来源 | 生成日期 | 来源链接 |
+| --- | --- | --- | --- | --- |
+| 手册 | [IM 多平台智能客服项目说明书.md](开发教程/Agent项目篇/IM%20多平台智能客服项目说明书.md) | Bilibili / AI大模型码农 | 2026-09-06 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=14) |
 
 ### Playwright 系列（web自动化测试 · B站系列）
 

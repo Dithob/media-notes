@@ -146,15 +146,10 @@ Superpowers 是很好的 harness engineering 实践，但 Anthropic 官方博客
 | 长任务、多步骤、容易跑偏 | ✅ 适合，子代理拆分天然解决上下文污染 |
 | token 预算紧张 / 赶时间 | ❌ 慎用，视频给的参照是 10 刀 → 200 刀 |
 
-## 无法确认 / 存疑
-
-- 「中断要保持一致性」一条的字幕为「中段要有一等于一」，原词无法确认。
-- 工具调用危险性那篇文章的具体出处视频未点名，无法确认。
-- Superpowers 的 star 数（视频说 GitHub 约 13 万）为口播数据，未经核实。
-- 视频标题中的「果穗」为本系列名称，字幕亦作「果穗」，未做改动。
-
 ## 副产物导航
 
 副产物（原始字幕、时间轴转录、元数据）仅存本地，不进公开仓库。原视频：[让 harness 减少 AI 写的屎山 | 名片网页制作教程 EP7：superpowers 是什么？为什么要用](https://www.bilibili.com/video/BV1V49MBLE6y)
+
+- ASR 还原对照：[`docs/asr-corrections/咲凌_Arisa.md`](../../docs/asr-corrections/咲凌_Arisa.md)｜存疑待审：[`docs/asr-corrections/存疑清单.md`](../../docs/asr-corrections/存疑清单.md)（均仅本地，不发布）
 
 **证据标注说明**：标注「字幕已验证」的内容直接来自字幕；标注「背景补充」的来自模型通识，用于解释术语；标注「无法确认」的为 ASR 噪声或视频未点名出处的内容。

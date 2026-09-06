@@ -34,6 +34,8 @@ media-notes 是一个音视频内容提取与整理工作区：用 `media-conten
      ```
    - 文末必须有 `## 副产物导航` 段（注明副产物仅存本地并附原视频链接；发布时整段会被剥掉）。
 
+   **ASR 术语还原单独落盘**：字幕误识别的专有名词还原，写到 `docs/asr-corrections/<作者>.md`（先读该作者对照表，命中即复用、新变体补回该作者文件；存疑项写进 `docs/asr-corrections/存疑清单.md`）。笔记正文**只留一行指针（指向作者文件 + 存疑清单），且必须放在 `## 副产物导航` 段内**——正文其他位置的 `../docs/asr-corrections/` 链接发布后会变成死链。
+
 3. **更新索引**：`media-note/README.md` 对应分类的表里加一行。列结构（发布脚本解析依赖，**第 5 列必须是「来源链接」**，格式为指向原视频的 Markdown 链接，如 `[BV1V49MBLE6y](https://www.bilibili.com/video/BV1V49MBLE6y)`）：
    ```
    | 类型 | 标题 | 来源 | 生成日期 | 来源链接 |
@@ -97,5 +99,6 @@ https://dithob.github.io/notes/<slug>/   ← 正文页
 - 索引表第 5 列必须是「来源链接」列，删列或改列名会导致脚本解析失败；
 - 副产物导航段的标题必须保持 `## 副产物导航`，脚本按标题剥离到文末；
 - `media-content-distiller` 脚本按 slug 生成的主产物链接名与实际文件名不一致，写完笔记要手动修正；
+- 指向 `docs/asr-corrections/` 的链接**必须放在 `## 副产物导航` 段内**，放正文其他位置会在站点上变成死链（发布脚本只剥离导航段、只改写 `../byproducts/` 链接）；
 - byproducts/ 含完整 ASR 转写，**绝不**提交到本公开仓库（已 gitignore），备份放私有存储；
 - `.env`、`accounts*.json`、`*.token` 已在 .gitignore，不要把 Token 写进笔记、日志或提交记录。

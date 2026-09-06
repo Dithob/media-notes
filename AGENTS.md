@@ -4,7 +4,7 @@
 
 ## 目录结构
 
-工作区只分两层：**给人读的成品笔记**放 `media-note/`，**提取过程的副产物**放 `byproducts/`。
+工作区分三层：**给人读的成品笔记**放 `media-note/`，**提取过程的原始副产物**放 `byproducts/`，**人工还原的术语对照**放 `docs/asr-corrections/`。
 
 ```text
 media-notes/
@@ -29,7 +29,12 @@ media-notes/
 ├── scripts/                                  # publish-notes.mjs / publish.config.mjs
 ├── skills/                                   # skills.sh 技能源
 ├── .pi/skills/                               # pi 项目技能
-└── docs/                                     # 设计文档
+└── docs/                                     # 设计文档 + ASR 术语还原
+    ├── site-notes-publishing.md
+    └── asr-corrections/                      # ASR 还原对照（可提交、不发布；按讲者组织）
+        ├── README.md                         # 索引：作者 → 对照表文件
+        ├── <作者>.md                          # 该讲者的 ASR 还原对照表
+        └── 存疑清单.md                        # 待人工审核的存疑项（与对照表分离）
 ```
 
 ## 主产物 `media-note/`
@@ -100,12 +105,23 @@ media-notes/
 
 一个来源的所有副产物都收进它自己的文件夹，固定短文件名：`raw-subtitle.json`、`metadata.json`、`transcript.md`、`status.json`。
 
+## ASR 术语还原 `docs/asr-corrections/`
+
+视频字幕是语音识别产物，专有名词会被系统性误识别。误识别由讲者口音决定（同一个 UP 主会在不同视频里反复犯同样的错），所以**按讲者（UP 主）组织**，不按笔记组织：
+
+- `<作者>.md`：该讲者的「ASR 还原对照表」，只放**已确定**的「误识别变体 → 正确术语」映射；
+- `存疑清单.md`：所有**待人工审核**的存疑项集中于此（倾向判断、无法确认、需人工核对），按作者分组，含「已查证」回看记录——**与对照表分离**，拿不准的别塞进对照表；
+- 笔记正文只留一行指针（指向作者文件 + 存疑清单），**指针必须放在 `## 副产物导航` 段内**——发布脚本只剥离该段，正文里的 `../docs/asr-corrections/` 链接发布后会变成死链；
+- **先查后写**：整理新笔记前先读该讲者的 `<作者>.md`，命中就复用，发现新变体补回该作者的对照表；
+- **查证规则**：包名、CLI 命令名、启动参数、文件路径、API 方法名、技术术语缩写**必须联网查证**（标「存疑」不等于免责）；模型版本号、UP 主昵称、视频未展示的命令原文可以只标存疑。
+
 ## 工作流
 
 1. 拿到 URL 或本地文件，先取字幕，**不要走 BibiGPT 总结接口**；
 2. 副产物落到 `byproducts/<source-id>/`，同时用 `--main-product-dir` 让脚本生成的链接指向 `media-note/`；
 3. 由 Codex 基于字幕整理主产物，按分类写进 `media-note/<分类>/`（同一系列视频归入同一系列文件夹）；
-4. 更新 `media-note/README.md` 对应分类的索引表，并在笔记文末加副产物导航。
+4. 把 ASR 术语还原写到 `docs/asr-corrections/<作者>.md`（先读该作者的对照表，命中即复用），存疑项写进 `docs/asr-corrections/存疑清单.md`，笔记正文在 `## 副产物导航` 段内留指针；
+5. 更新 `media-note/README.md` 对应分类的索引表，并在笔记文末加副产物导航。
 
 取字幕的实际命令（在项目根目录执行）：
 
@@ -147,5 +163,6 @@ python <skill>/scripts/token_registry.py list --registry <accounts.json>
 **本仓库是公开仓库。**
 
 - `byproducts/`（原始字幕、时间轴转录等副产物）已 gitignore 并停止跟踪，只存本地；若历史提交里已含副产物，必须用 `git filter-repo --path byproducts/ --invert-paths` 重写历史并 force push，确保任何提交都不含完整 ASR 转写（公开即接近分发原视频字幕全文）。副产物如需备份，请放私有仓库或其他私有存储，不要推到本仓库；
+- `docs/asr-corrections/` **可提交**：它只是人工还原出的零散词条映射表，不含完整转写内容，不触碰上一条红线；
 - `.env`、`accounts.json`、`accounts-tokens.json`、`*.token` 已在 `.gitignore` 中，不要把 Token 写进笔记、日志或提交记录；
 - `.workbuddy/` 也在 `.gitignore` 中——Agent 的 memory 里会记跨项目的绝对路径，不适合进仓库。

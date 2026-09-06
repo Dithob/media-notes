@@ -2,11 +2,11 @@
 
 > 来源：[Pi 大道至简，超越 Codex 和 Claude Code 的极简 Agent，保姆级全攻略，一期视频精通](https://www.bilibili.com/video/BV139bD6gEa8)
 > UP 主：技术爬爬虾｜时长：44:38｜整理日期：2026-08-30
-> 本手册基于字幕整理。ASR 转写对 Pi 本体名有大量误识别（派 / pad / pie / PAGENT 混用），专有名词已按上下文统一还原为 Pi，其余还原见[附录 A](#附录-aasr-还原对照表)。
+> 本手册基于字幕整理。ASR 转写对 Pi 本体名有大量误识别（派 / pad / pie / PAGENT 混用），专有名词已按上下文统一还原为 Pi，其余还原见本地 ASR 还原对照表。
 
 > **⚠️ 2026-08-30 修订说明**：初版把 9 个插件名直接按 ASR 读音列出、未做查证。对照 [pi.dev 官方包目录](https://pi.dev/packages) 核实后**修正 5 处**：
 > `pi-web-assistant`→**`pi-web-access`**｜`pi-sub-agents`→**`pi-subagents`**｜「GOGO 模式 `/go`」→**goal 模式 `/goal`**｜`plan-mode` 命令→**`/plan`**｜全局插件目录 `~/.pi/extensions/`→**`~/.pi/agent/extensions/`**。
-> 修正项已在正文中标注来源，详见[第七章](#七扩展能力一插件)与[附录 B](#附录-b存疑清单)。
+> 修正项已在正文中标注来源，详见[第七章](#七扩展能力一插件)与本地存疑清单。
 
 ## 一句话结论
 
@@ -78,7 +78,7 @@ Pi 是一个把「少即是多」做到极端的 coding agent：**只有 4 个�
 | 项目级插件 | `<项目>/.pi/extensions/` | 字幕已验证 |
 | 全局插件 | `~/.pi/agent/extensions/` | 字幕说「点派 → agent 文件夹 → 粘贴 extensions」，与第三方文档一致 |
 | 项目级 skill | `<项目>/.agents/skills/<skill名>/SKILL.md` | 字幕已验证 |
-| 全局 skill | `~/.agents/skills/…`（字幕）或 `~/.pi/agent/skills/…`（第三方文档） | ⚠️ **两种说法并存**，见[附录 B](#附录-b存疑清单) |
+| 全局 skill | `~/.agents/skills/…`（字幕）或 `~/.pi/agent/skills/…`（第三方文档） | ⚠️ **两种说法并存**，见本地存疑清单 |
 | 项目记忆 | `<项目>/AGENTS.md` | 已交叉验证 |
 | 全局记忆 | `~/.pi/agent/AGENTS.md` | 已交叉验证 |
 | 全局追加系统提示词 | `~/.pi/agent/APPEND_SYSTEM.md`（优先级高于 AGENTS.md） | 目录层级按第三方文档补正 |
@@ -86,7 +86,7 @@ Pi 是一个把「少即是多」做到极端的 coding agent：**只有 4 个�
 
 Windows 下 `~` = `C:\Users\<你的用户名>\`。目录不存在就手动新建。
 
-> 路径清单已对照 pi.dev 包目录与第三方配置文档核过。初版漏了 `agent/` 这一层（全局插件和 `APPEND_SYSTEM.md` 都写成 `~/.pi/` 下），已补正。全局 skills 路径两种说法并存，见[附录 B](#附录-b存疑清单)。
+> 路径清单已对照 pi.dev 包目录与第三方配置文档核过。初版漏了 `agent/` 这一层（全局插件和 `APPEND_SYSTEM.md` 都写成 `~/.pi/` 下），已补正。全局 skills 路径两种说法并存，见本地存疑清单。
 
 ### 状态栏怎么读
 
@@ -474,69 +474,8 @@ npm install @mariozechner/pi-coding-agent # 开箱即用的 coding agent
 
 ---
 
-## 附录 A：ASR 还原对照表
-
-| 字幕原文 | 实际所指 |
-|---|---|
-| 派 / pad / pie / PAGENT / 拍 / 皮 | **Pi**（本视频的 agent 本体） |
-| 赛森 / sassin | session |
-| codex | Codex |
-| cloud code | Claude Code |
-| data breaks | Databricks |
-| cloud oppos | Claude Opus |
-| deep sick / deep sc / deep sk | DeepSeek |
-| chat gbt / Gb t5.6 | ChatGPT / GPT-5.6 |
-| 携线 new / 斜线 T 等 | `/new` / `/tree` 等斜杠命令 |
-| APIK | API Key |
-| nod e js | Node.js |
-| power shell | PowerShell |
-| git bash | Git Bash |
-| 叹号 / 两个叹号 | `!` / `!!` |
-| 艾特 | `@` |
-| staring / stering / sting / STERING | **steering**（引导、打方向盘） |
-| folk | fork |
-| 拜事 / 拜师 | bash |
-| grape | grep |
-| l s s | ls |
-| XRMCP | 某个内置 MCP 服务（无法确认具体是哪个） |
-| 点 MCP 点 JASON | `.mcp.json` |
-| 点派 / 点 agents | `.pi` / `.agents` |
-| 艾阵次点MD / agency点MD | `AGENTS.md` |
-| append system 点MD | `APPEND_SYSTEM.md` |
-| 点ENV | `.env` |
-| WSSL | WSL |
-| hyper v | Hyper-V |
-| K8S | Kubernetes |
-| 第四种黑猩猩 | 社区 Web UI 项目作者昵称（无法确认准确写法） |
-| **GOGO 模式** | **goal 模式** ✅ 已查证 |
-| 斜线 go | `/goal` ✅ 已查证 |
-| plan mode（命令） | `/plan` ✅ 已查证 |
-
-## 附录 B：存疑清单
-
-**已查证、不再是存疑项**（对照 pi.dev 官方包目录与第三方文档）：
-
-- ✅ `/goal` 模式——原误写为「GOGO 模式 / `/go`」。
-- ✅ `pi -p` / `pi -c` / `pi -r` 三个启动参数——与官方文档一致。
-- ✅ 插件包名——见第七章表格，其中 `pi-web-assistant`→`pi-web-access`、`pi-sub-agents`→`pi-subagents`、`pi-gogo`→`pi-goal` 系均为**修正项**。
-- ✅ 源码包结构——`packages/{ai,agent,coding-agent,tui}` 与视频一致。
-
-**仍未确认**：
-
-1. **模型版本号**：「cloud oppos 4.8」——Claude 现役版本无 4.8，无法确认原词，推测为 4.5/4.6 的误识别。
-2. **Composer 基准测试**：字幕只说「composer 上个月的一组基准测试」，未说明是哪个组织/产品，无法确认。
-3. **安装命令原文**：视频只演示「从官网复制命令」。第三方文档给出的官网命令是 Windows `powershell -c "irm https://pi.dev/install.ps1 | iex"`、macOS/Linux `curl -fsSL https://pi.dev/install.sh | sh`，**请以官网当前页面为准**。
-4. **npm scope**：`@mariozechner/*` 与 `@earendil-works/*` 两种说法并存（仓库已转由 Earendil Inc. 维护）。
-5. **`pi-ai` 的方法名**：视频说 `createModel`，文档里出现的是 `getModel` / `stream` / `complete`。
-6. **全局 skills 路径**：字幕 `~/.agents/skills/` vs 文档 `~/.pi/agent/skills/`，两者可能都支持。
-7. **微信插件**：官方包目录前 50 名（按下载量）无此包，只有 `@llblab/pi-telegram`。全站 5410 个包未穷举，**无法确认**。
-8. **联网插件的「零配置」**：视频强调不需要 API key，但 `pi-web-access` 多数后端需要 key。作者装的可能是别的包或旧版本。
-9. **DeepSeek 模型名**：「V4 Pro / V4 Flash」为字幕读音还原。
-10. **XRMCP**：联网插件内置的 MCP 服务名，无法确认。
-11. **「第四种黑猩猩」**：Web UI 作者昵称，无法确认准确写法。
-
----
-
 ## 副产物导航
 
 副产物（原始字幕、时间轴转录、元数据）仅存本地，不进公开仓库。原视频：[Pi 大道至简，超越Codex和Claude Code的极简Agent，保姆级全攻略， 一期视频精通](https://www.bilibili.com/video/BV139bD6gEa8)
+
+- ASR 还原对照：[`docs/asr-corrections/技术爬爬虾.md`](../../docs/asr-corrections/技术爬爬虾.md)｜存疑待审：[`docs/asr-corrections/存疑清单.md`](../../docs/asr-corrections/存疑清单.md)（均仅本地，不发布）
