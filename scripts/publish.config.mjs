@@ -179,4 +179,26 @@ export const notes = {
     summaryEn:
       'A project playbook for a full-channel AI customer-service platform built with Dify (Chatflow/RAG/agent orchestration) and LangBot (multi-IM bot gateway): architecture, advantages, scenarios, and two end-to-end builds — a WeChat Work RAG bot and a Feishu college-admission bot.',
   },
+
+  '开发教程/Agent方法论/Agent 开发典型范式方法论笔记.md': {
+    slug: 'agent-development-paradigms',
+    titleEn: 'Typical agent development paradigms',
+    category: 'AI / Agent',
+    categoryEn: 'AI / Agent',
+    summary:
+      '从应用场景、技术实现、智能程度三条互补的轴给 Agent 分类，串起 CRAG / Self-RAG、LLMCompiler、LATS、Multi-Agent 与五级智能程度，并给出自主 Agent 的终止与预算边界设计。',
+    summaryEn:
+      'Classifies agents along three complementary axes — application scenario, technical implementation, and intelligence level — covering CRAG / Self-RAG, LLMCompiler, LATS, multi-agent systems, five levels of agent intelligence, and the termination and budget boundaries every autonomous agent needs.',
+  },
+
+  '开发教程/Playwright 系列/Playwright web自动化教程书 手册.md': {
+    slug: 'playwright-web-automation-manual-python',
+    titleEn: 'Playwright web automation manual (Python)',
+    category: 'Testing',
+    categoryEn: 'Testing',
+    summary:
+      '36 个分 P、约 312 分钟系统讲解 Python 版 Playwright Web 自动化：原理架构与环境安装，元素定位（CSS selector / xpath / 文本 / role / 视觉定位），元素操作（输入、单选、复选、下拉、拖拽）与页面级操作（frame、窗口切换、截屏、弹出框）。',
+    summaryEn:
+      'A 36-part, ~312-minute systematic Python Playwright web-automation manual: architecture and setup, element locating (CSS selectors, XPath, text, role, visual), element operations (typing, check, select, drag), and page-level operations (frames, window switching, screenshots, dialogs).',
+  },
 };

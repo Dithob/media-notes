@@ -10,7 +10,14 @@
 // 「副产物导航」整段会被剥离，正文里残留的 ../byproducts/ 链接会被改写
 // 成指向原视频。
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+  readdirSync,
+} from 'node:fs';
 import { join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { notes as overrides, siteNotesDir } from './publish.config.mjs';
@@ -19,6 +26,8 @@ const here = fileURLToPath(new URL('.', import.meta.url));
 const projectRoot = resolve(here, '..');
 const noteDir = join(projectRoot, 'media-note');
 const indexPath = join(noteDir, 'README.md');
+const assetSourceDir = join(noteDir, 'assets');
+const assetTargetDir = join(siteNotesDir, 'assets');
 
 const write = process.argv.includes('--write');
 
@@ -125,9 +134,11 @@ function headingText(raw) {
 function parseSourceBlock(md) {
   const link = md.match(/^>\s*来源：\[([^\]]+)\]\(([^)]+)\)/m);
   const meta = md.match(/^>\s*UP 主：(.+?)｜时长：(.+?)｜整理日期：([\d-]+)/m);
+  // 兼容「来源：[原始内容](<https://...>)」的尖括号写法，避免把 <> 带进 frontmatter。
+  const sourceUrl = link ? link[2].trim().replace(/^<(.+)>$/, '$1') : null;
   return {
     sourceTitle: link ? link[1].trim() : null,
-    sourceUrl: link ? link[2].trim() : null,
+    sourceUrl,
     author: meta ? meta[1].trim() : null,
     duration: meta ? meta[2].trim() : null,
     date: meta ? meta[3].trim() : null,
@@ -151,7 +162,12 @@ function transformBody(raw, sourceUrl) {
     });
   }
 
-  return { body: body.trim() + '\n', hadNav, rewritten };
+  // 站点笔记是平铺的，assets 也同步到同级 assets/：把子目录笔记的
+  // ../assets/ 归一为 assets/，与发布后的相对层级保持一致。
+  const assetFixed = (body.match(/\]\(\.\.\/assets\//g) ?? []).length;
+  body = body.replace(/\]\(\.\.\/assets\//g, '](assets/');
+
+  return { body: body.trim() + '\n', hadNav, rewritten, assetFixed };
 }
 
 function checkAnchors(body) {
@@ -230,7 +246,7 @@ for (const file of files) {
 
   const raw = readFileSync(join(noteDir, file), 'utf8');
   const meta = parseSourceBlock(raw);
-  const { body, hadNav, rewritten } = transformBody(raw, meta.sourceUrl);
+  const { body, hadNav, rewritten, assetFixed } = transformBody(raw, meta.sourceUrl);
   const { anchorCount, broken } = checkAnchors(body);
 
   if (!meta.sourceUrl) problems.push(`${file}：正文头部没解析到来源链接`);
@@ -242,7 +258,7 @@ for (const file of files) {
     slug: override.slug,
     target: join(siteNotesDir, `${override.slug}.md`),
     content: frontmatter + body,
-    stats: { hadNav, rewritten, anchorCount, broken: broken.length },
+    stats: { hadNav, rewritten, assetFixed, anchorCount, broken: broken.length },
   });
 }
 
@@ -255,7 +271,7 @@ console.log();
 
 for (const r of results) {
   console.log(`  ${r.file}  ->  ${r.slug}.md`);
-  console.log(`      剥离副产物导航 ${r.stats.hadNav ? '是' : '否'}｜改写链接 ${r.stats.rewritten} 处｜标题锚点 ${r.stats.anchorCount} 个`);
+  console.log(`      剥离副产物导航 ${r.stats.hadNav ? '是' : '否'}｜改写链接 ${r.stats.rewritten} 处｜归一 assets ${r.stats.assetFixed} 处｜标题锚点 ${r.stats.anchorCount} 个`);
 }
 
 if (problems.length) {
@@ -268,6 +284,19 @@ if (!results.length) fail('没有可发布的笔记');
 if (write) {
   mkdirSync(siteNotesDir, { recursive: true });
   for (const r of results) writeFileSync(r.target, r.content, 'utf8');
+
+  // 同步 media-note/assets/ 下的静态资源到站点（平铺，与正文 assets/ 引用一致）。
+  const assets = existsSync(assetSourceDir)
+    ? readdirSync(assetSourceDir).filter((file) => !file.startsWith('.'))
+    : [];
+  if (assets.length) {
+    mkdirSync(assetTargetDir, { recursive: true });
+    for (const asset of assets) {
+      copyFileSync(join(assetSourceDir, asset), join(assetTargetDir, asset));
+    }
+    console.log(`已同步 ${assets.length} 个静态资源到站点 assets/。`);
+  }
+
   console.log(`\n已写入 ${results.length} 篇，接下来到站点仓库执行 git commit / push。`);
 } else {
   console.log(`\n共 ${results.length} 篇待发布。确认无误后加 --write 执行。`);

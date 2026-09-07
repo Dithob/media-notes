@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | `AI 工具指南` | AI skills、插件等工具的使用与实战 | 2 |
 | `软件使用说明` | 具体软件 / Agent 产品的使用说明 | 2 |
-| `开发教程` | RAG、Agent、源码工程等开发向教程 | 10 |
+| `开发教程` | RAG、Agent、源码工程等开发向教程 | 13 |
 | `学习路线` | 阶段式学习路线 | 1 |
 | `编程基础` | 通用编程基础概念 | 1 |
 
@@ -39,6 +39,8 @@
 | 类型 | 标题 | 来源 | 生成日期 | 来源链接 |
 | --- | --- | --- | --- | --- |
 | 笔记 | [AI Agent 概述与开发指南笔记.md](开发教程/Agent方法论/AI%20Agent%20概述与开发指南笔记.md) | Bilibili / AI大模型码农 | 2026-09-05 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=7) |
+| 笔记 | [Agent 开发典型范式方法论笔记.md](开发教程/Agent方法论/Agent%20开发典型范式方法论笔记.md) | Bilibili / AI大模型码农 | 2026-09-04 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=8) |
+| 笔记 | [Agent 典型范式 速记.md](开发教程/Agent方法论/Agent%20典型范式%20速记.md) | Bilibili / AI大模型码农 | 2026-09-04 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=8) |
 | 笔记 | [Agent 核心能力、开发框架与外围技术栈笔记.md](开发教程/Agent方法论/Agent%20核心能力、开发框架与外围技术栈笔记.md) | Bilibili / AI大模型码农 | 2026-09-06 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=9) |
 | 笔记 | [大模型时代的 Agent 开发方法论笔记.md](开发教程/Agent方法论/大模型时代的%20Agent%20开发方法论笔记.md) | Bilibili / AI大模型码农 | 2026-09-06 | [BV1xwVr6FEh4](https://www.bilibili.com/video/BV1xwVr6FEh4?p=10) |
 
@@ -61,6 +63,7 @@
 | 类型 | 标题 | 来源 | 生成日期 | 来源链接 |
 | --- | --- | --- | --- | --- |
 | 笔记 | [Playwright 深入掌握笔记.md](开发教程/Playwright%20系列/Playwright%20深入掌握笔记.md) | Bilibili / web自动化测试 | 2026-08-31 | [BV17wRQBLEZn](https://www.bilibili.com/video/BV17wRQBLEZn?p=3) |
+| 手册 | [Playwright web自动化教程书 手册.md](开发教程/Playwright%20系列/Playwright%20web自动化教程书%20手册.md) | Bilibili / 白月黑羽编程 | 2026-09-02 | [BV1Gw411N73T](https://www.bilibili.com/video/BV1Gw411N73T) |
 
 ### 其他
 
